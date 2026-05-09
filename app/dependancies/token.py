@@ -4,7 +4,7 @@ import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 
-from config import settings
+from app.config import settings
 
 
 JWT_KEY = settings.JWT_KEY
