@@ -7,6 +7,11 @@ class RegisterReq(BaseModel):
     name: str
 
 
+class LoginReq(BaseModel):
+    email: EmailStr
+    password: str
+
+
 class TokenResp(BaseModel):
     access_token: str
     token_type: str
