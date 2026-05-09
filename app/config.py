@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_NAME: str
     DB_PORT: int
+    JWT_KEY: str
 
     @computed_field
     @property

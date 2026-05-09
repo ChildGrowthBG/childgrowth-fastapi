@@ -1,0 +1,49 @@
+from datetime import datetime, timedelta, UTC
+
+import jwt
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
+from config import settings
+
+
+JWT_KEY = settings.JWT_KEY
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_DAYS = 30
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+credentials_exception = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Could not validate credentials",
+    headers={"WWW-Authenticate": "Bearer"},
+)
+
+
+def create_access_token(user_id: int) -> str:
+    payload = {
+        "sub": str(user_id),
+        "exp": datetime.now(UTC) + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS),
+    }
+    encoded_jwt = jwt.encode(payload, JWT_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+
+def verify_token(token: str = Depends(oauth2_scheme)) -> int:
+    try:
+        payload = jwt.decode(token, JWT_KEY, algorithms=[ALGORITHM])
+        user_id = payload["sub"]
+        return int(user_id)
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(401, "Token is expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(401, "Invalid token")
+
+
+def get_current_user_id(token: str = Depends(oauth2_scheme)) -> int:
+    _ = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    return verify_token(token)
