@@ -33,4 +33,4 @@ spec:
             - name: DB_PORT
               value: "5432"
             - name: JWT_KEY
-              value: owejfwoiOIJOIiojo
+              value: 
