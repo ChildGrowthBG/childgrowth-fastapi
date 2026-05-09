@@ -21,30 +21,16 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 5
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 8080
-            initialDelaySeconds: 15
-            periodSeconds: 20
           env:
             - name: DB_USER
-              value: 
+              value: testuser
             - name: DB_PASSWORD
-              value: 
+              value: testpassword
             - name: DB_HOST
-              value: 
+              value: "192.168.68.122"
             - name: DB_NAME
-              value: 
+              value: child_growth_dev
             - name: DB_PORT
-              value: 
+              value: "5432"
             - name: JWT_KEY
-              value: 
-
-          
+              value: owejfwoiOIJOIiojo

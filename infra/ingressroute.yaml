@@ -13,3 +13,12 @@ spec:
       middlewares:
       - name: strip-prefix
         namespace: child-growth-api-dev
+  routes:
+    - match: PathPrefix(`/api-child-growth`)
+      kind: Rule
+      services:
+        - name: child-growth-api-dev-svc # The name of your ClusterIP service
+          port: 8080 # The port named 'http' (8080) on your service
+      middlewares:
+      - name: strip-prefix
+        namespace: child-growth-api-dev
