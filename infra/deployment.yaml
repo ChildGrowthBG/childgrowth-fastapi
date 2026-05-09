@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: child-growth-api-dev-deployment
+  namespace: child-growth-api-dev
+  labels: 
+    app: child-growth-api-dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: child-growth-api-dev
+  template:
+    metadata:
+      labels: 
+        app: child-growth-api-dev
+    spec:
+      containers:
+        - name: child-growth-api
+          image: ghcr.io/childgrowthbg/childgrowth-fastapi:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          env:
+            - name: DB_USER
+              value: 
+            - name: DB_PASSWORD
+              value: 
+            - name: DB_HOST
+              value: 
+            - name: DB_NAME
+              value: 
+            - name: DB_PORT
+              value: 
+            - name: JWT_KEY
+              value: 
+
+          

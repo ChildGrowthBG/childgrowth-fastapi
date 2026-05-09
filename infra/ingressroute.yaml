@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: child-growth-api-dev-ingress
+  namespace: child-growth-api-dev # Must be in the same namespace as the service
+spec:
+  routes:
+    - match: Host(`agent.tailfb7516.ts.net`) && PathPrefix(`/api-child-growth`)
+      kind: Rule
+      services:
+        - name: child-growth-api-dev-svc # The name of your ClusterIP service
+          port: 8080 # The port named 'http' (8080) on your service
+      middlewares:
+      - name: strip-prefix
+        namespace: child-growth-api-dev
